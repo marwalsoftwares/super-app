@@ -1,45 +1,81 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <meta charset="UTF-8">
-
 <title>Super App Update</title>
 
 <style>
 
 body{
-font-family:Arial;
-background:#f0f0f0;
-text-align:center;
-padding:40px;
+font-family: Arial, sans-serif;
+background:#f2f2f2;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
 }
 
-.box{
+.card{
+
+width:420px;
 background:white;
-padding:30px;
 border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+padding:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+text-align:center;
+
+}
+
+h2{
+margin-top:0;
+color:#333;
+}
+
+.version{
+color:#666;
+margin-bottom:20px;
+}
+
+.changelog{
+
+text-align:left;
+background:#fafafa;
+border:1px solid #ddd;
+padding:10px;
+height:120px;
+overflow:auto;
+border-radius:5px;
+
+}
+
+.buttons{
+
+margin-top:20px;
+
 }
 
 button{
+
 padding:10px 20px;
-margin:10px;
-font-size:16px;
 border:none;
 border-radius:5px;
+font-size:15px;
 cursor:pointer;
+
 }
 
-.yes{
+.update{
+
 background:#28a745;
 color:white;
+
 }
 
-.no{
-background:#dc3545;
-color:white;
+.later{
+
+background:#ccc;
+
 }
 
 </style>
@@ -48,25 +84,28 @@ color:white;
 
 <body>
 
-<div class="box">
+<div class="card">
 
 <h2>🚀 New Update Available</h2>
 
-<p>A new version of Super App is available.</p>
+<div class="version">
+Current Version: <span id="current"></span><br>
+Latest Version: <span id="latest"></span>
+</div>
 
-<h4>What's New</h4>
+<h4>Changes</h4>
 
-<ul>
-<li>Performance improvements</li>
-<li>Bug fixes</li>
-<li>New features added</li>
-</ul>
+<div class="changelog" id="changelog">
+Loading...
+</div>
 
-<p>Do you want to update now?</p>
+<div class="buttons">
 
-<button class="yes" onclick="update()">Yes Update</button>
+<button class="update" onclick="startUpdate()">Update Now</button>
 
-<button class="no" onclick="later()">Later</button>
+<button class="later" onclick="closeWin()">Later</button>
+
+</div>
 
 </div>
 
@@ -74,13 +113,21 @@ color:white;
 
 const { ipcRenderer } = require("electron")
 
-function update(){
+ipcRenderer.on("update-info",(event,data)=>{
+
+document.getElementById("current").innerText=data.current
+document.getElementById("latest").innerText=data.latest
+document.getElementById("changelog").innerText=data.body || "No changelog available"
+
+})
+
+function startUpdate(){
 
 ipcRenderer.send("start-update")
 
 }
 
-function later(){
+function closeWin(){
 
 window.close()
 
@@ -89,5 +136,4 @@ window.close()
 </script>
 
 </body>
-
 </html>
