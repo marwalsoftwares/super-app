@@ -1,80 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
-<title>Super App Update</title>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
+font-family:Arial;
 background:#f2f2f2;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
 margin:0;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
 }
 
-.card{
+.box{
 
 width:420px;
 background:white;
+padding:25px;
 border-radius:10px;
-padding:30px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-text-align:center;
-
-}
-
-h2{
-margin-top:0;
-color:#333;
-}
-
-.version{
-color:#666;
-margin-bottom:20px;
-}
-
-.changelog{
-
-text-align:left;
-background:#fafafa;
-border:1px solid #ddd;
-padding:10px;
-height:120px;
-overflow:auto;
-border-radius:5px;
-
-}
-
-.buttons{
-
-margin-top:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
 
 }
 
 button{
 
 padding:10px 20px;
+margin-top:15px;
+margin-right:10px;
 border:none;
 border-radius:5px;
-font-size:15px;
 cursor:pointer;
 
 }
 
 .update{
-
 background:#28a745;
 color:white;
-
 }
 
 .later{
-
 background:#ccc;
+}
+
+#log{
+
+background:#fafafa;
+border:1px solid #ddd;
+padding:10px;
+height:100px;
+overflow:auto;
+margin-top:10px;
 
 }
 
@@ -84,28 +63,21 @@ background:#ccc;
 
 <body>
 
-<div class="card">
+<div class="box">
 
 <h2>🚀 New Update Available</h2>
 
-<div class="version">
-Current Version: <span id="current"></span><br>
-Latest Version: <span id="latest"></span>
-</div>
+<p>
+Current Version: <b id="current"></b><br>
+Latest Version: <b id="latest"></b>
+</p>
 
 <h4>Changes</h4>
 
-<div class="changelog" id="changelog">
-Loading...
-</div>
+<div id="log"></div>
 
-<div class="buttons">
-
-<button class="update" onclick="startUpdate()">Update Now</button>
-
+<button class="update" onclick="update()">Update</button>
 <button class="later" onclick="closeWin()">Later</button>
-
-</div>
 
 </div>
 
@@ -117,13 +89,13 @@ ipcRenderer.on("update-info",(event,data)=>{
 
 document.getElementById("current").innerText=data.current
 document.getElementById("latest").innerText=data.latest
-document.getElementById("changelog").innerText=data.body || "No changelog available"
+document.getElementById("log").innerText=data.body
 
 })
 
-function startUpdate(){
+function update(){
 
-ipcRenderer.send("start-update")
+window.electronAPI.startUpdate()
 
 }
 
@@ -136,4 +108,5 @@ window.close()
 </script>
 
 </body>
+
 </html>
