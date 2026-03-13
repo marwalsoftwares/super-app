@@ -5,49 +5,41 @@
 
 <meta charset="UTF-8">
 
-<title>New Update Available</title>
+<title>Super App Update</title>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f5f5f5;
+background:#f0f0f0;
 text-align:center;
 padding:40px;
 }
 
 .box{
-
 background:white;
 padding:30px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.2);
-
 }
 
 button{
-
 padding:10px 20px;
 margin:10px;
 font-size:16px;
 border:none;
 border-radius:5px;
 cursor:pointer;
-
 }
 
 .yes{
-
 background:#28a745;
 color:white;
-
 }
 
 .no{
-
 background:#dc3545;
 color:white;
-
 }
 
 </style>
@@ -60,23 +52,21 @@ color:white;
 
 <h2>🚀 New Update Available</h2>
 
-<p id="version"></p>
+<p>A new version of Super App is available.</p>
 
 <h4>What's New</h4>
 
 <ul>
-
-<li>Bug Fixes</li>
-<li>Performance Improvements</li>
-<li>New Features Added</li>
-
+<li>Performance improvements</li>
+<li>Bug fixes</li>
+<li>New features added</li>
 </ul>
 
 <p>Do you want to update now?</p>
 
 <button class="yes" onclick="update()">Yes Update</button>
 
-<button class="no" onclick="closeApp()">Later</button>
+<button class="no" onclick="later()">Later</button>
 
 </div>
 
@@ -86,13 +76,11 @@ const { ipcRenderer } = require("electron")
 
 function update(){
 
-const url="https://github.com/marwalsoftwares/super-app/releases/latest/download/update.zip"
-
-ipcRenderer.send("start-update",url)
+ipcRenderer.send("start-update")
 
 }
 
-function closeApp(){
+function later(){
 
 window.close()
 
